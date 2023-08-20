@@ -1,4 +1,4 @@
-package com.github.hels.tradeplatform.ratesimulator.filters;
+package com.github.hels.tradeplatform.ratesimulator.http.filters;
 
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerRequestFilter;
