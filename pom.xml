@@ -17,7 +17,42 @@
 
     <properties>
         <java.version>17</java.version>
+        <lombok.version>1.18.28</lombok.version>
         <revision>0.0.1-SNAPSHOT</revision>
+        <compiler-plugin.version>3.11.0</compiler-plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${compiler-plugin.version}</version>
+                <configuration>
+                    <source>17</source>
+                    <target>17</target>
+                    <compilerArgs>
+                        <compilerArg>-Alombok.addLombokGeneratedAnnotation=true</compilerArg>
+                        <compilerArg>-Alombok.anyConstructor.addConstructorProperties=true</compilerArg>
+                        <compilerArg>-Amapstruct.defaultComponentModel=cdi</compilerArg>
+                    </compilerArgs>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

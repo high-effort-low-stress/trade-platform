@@ -64,11 +64,6 @@
             <artifactId>rest-assured</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -113,24 +108,6 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${compiler-plugin.version}</version>
-                <configuration>
-                    <compilerArgs>
-                        <compilerArg>-Alombok.addLombokGeneratedAnnotation=true</compilerArg>
-                        <compilerArg>-Alombok.anyConstructor.addConstructorProperties=true</compilerArg>
-                        <compilerArg>-Amapstruct.defaultComponentModel=cdi</compilerArg>
-                    </compilerArgs>
-                    <annotationProcessorPaths>
-                        <path>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                            <version>${lombok.version}</version>
-                        </path>
-                    </annotationProcessorPaths>
-                </configuration>
             </plugin>
         </plugins>
     </build>
