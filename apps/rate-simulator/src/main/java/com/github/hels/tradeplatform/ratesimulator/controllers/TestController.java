@@ -6,15 +6,13 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import lombok.RequiredArgsConstructor;
 
-import java.util.Map;
-
 @Path("test")
 @RequiredArgsConstructor
 public class TestController {
     private final SimulateStockPricingService service;
     @GET
-    public Map<String,String> test(){
+    public String test(){
         service.execute(new Stock());
-        return Map.of("message","Olá mundo");
+        return "Olá mundo";
     }
 }

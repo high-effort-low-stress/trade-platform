@@ -15,7 +15,7 @@
 	<name>onboarding</name>
 	<description>Users and Account managers</description>
 	<properties>
-
+		<java.version>${java.version}</java.version>
 	</properties>
 
 	<dependencyManagement>
