@@ -18,6 +18,7 @@
 
     <modules>
         <module>onboarding</module>
+        <module>rate-simulator</module>
     </modules>
 
     <properties>
