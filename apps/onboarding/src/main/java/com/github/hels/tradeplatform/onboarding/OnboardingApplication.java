@@ -1,4 +1,4 @@
-package com.github.hels.assetplatform.onboarding;
+package com.github.hels.tradeplatform.onboarding;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
