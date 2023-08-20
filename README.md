@@ -4,7 +4,7 @@
 This project is meant to emulate a trading platform.
 
 ### Technologies
-- Java 20
+- Java 17
 - Spring Boot 
 - Quarkus
 - PostgresSQL
@@ -14,6 +14,7 @@ This project is meant to emulate a trading platform.
 ### Modules
 
 - Onboarding
-- Prices
+- Rates
 - Trades
-- Price Simulator
+- Transfers
+- Rate Simulator
