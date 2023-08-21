@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres
+    container_name: db-trade_platform
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: "local"
+    volumes:
+      - "./src/main/resources/sql/:/docker-entrypoint-initdb.d"
