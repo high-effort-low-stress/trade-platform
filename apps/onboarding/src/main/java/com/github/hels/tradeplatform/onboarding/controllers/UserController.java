@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -27,8 +28,10 @@ public class UserController {
         String email = requestBody.getEmail();
         String password = requestBody.getPassword();
         String phoneNumber = requestBody.getPhoneNumber();
+        LocalDate birthDate = requestBody.getBirthDate();
 
-        User user = createUserService.execute(name, document, email, password, phoneNumber);
+
+        User user = createUserService.execute(name, document, email, password, phoneNumber, birthDate);
 
         return new CreateUserDto.Response(user.getId().toString());
     }

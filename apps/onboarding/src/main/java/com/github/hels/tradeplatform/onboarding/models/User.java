@@ -3,6 +3,8 @@ package com.github.hels.tradeplatform.onboarding.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @ToString
@@ -29,6 +31,8 @@ public class User {
     private String password;
     @Column(name = "phone_number", length = 13, nullable = false)
     private String phoneNumber;
+    @Column(name = "birth_date", nullable = false)
+    private LocalDate birthDate;
     @Column(name = "is_active", nullable = false)
     private boolean isActive = true;
 }
