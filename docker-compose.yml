@@ -8,6 +8,7 @@ services:
     ports:
       - "5432:5432"
     environment:
+      POSTGRES_DB: "trade_platform"
       POSTGRES_PASSWORD: "local"
     volumes:
-      - "./src/main/resources/sql/:/docker-entrypoint-initdb.d"
+      - "./apps/onboarding/src/main/resources/sql/:/docker-entrypoint-initdb.d"
