@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -32,16 +33,16 @@ public class CreateUserService {
         return repository.save(user);
     }
 
-    private void isDuplicated (String document, String email, String phoneNumber) {
-        if (repository.findByDocumentOrEmailOrPhoneNumber(
-                document,
-                email,
-                phoneNumber
-        ).isPresent()
-        ) throw new ApiException("User already registered.");
+    private void isDuplicated(String document, String email, String phoneNumber) {
+        List<User> users = repository.findDuplicates(document, email, phoneNumber);
+
+        if (!users.isEmpty())
+            throw new ApiException("User already registered.");
     }
+
     private void isLegalAge (LocalDate dateOfBirth) {
         LocalDate currentDate = LocalDate.now();
+
         if(Period.between(dateOfBirth, currentDate).getYears() < 18)
             throw new ApiException("User must be 18+ years old");
     }
