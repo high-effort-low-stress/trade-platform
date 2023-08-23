@@ -20,7 +20,6 @@ public class CreateUserService {
         isLegalAge(birthDate);
         isDuplicated(document, email, phoneNumber);
 
-
         User user = new User();
 
         user.setName(name);
