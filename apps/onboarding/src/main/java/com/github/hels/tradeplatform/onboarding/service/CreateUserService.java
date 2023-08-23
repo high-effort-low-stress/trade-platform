@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
@@ -20,7 +18,6 @@ public class CreateUserService {
     public User execute(String name, String document, String email, String password, String phoneNumber, LocalDate birthDate) {
 
         isLegalAge(birthDate);
-        isPhoneNumberValid(phoneNumber);
         isDuplicated(document, email, phoneNumber);
 
 
@@ -32,7 +29,6 @@ public class CreateUserService {
         user.setPassword(BCrypt.hashpw(password, BCrypt.gensalt()));
         user.setPhoneNumber(phoneNumber);
         user.setBirthDate(birthDate);
-
 
         return repository.save(user);
     }
@@ -49,11 +45,5 @@ public class CreateUserService {
         LocalDate currentDate = LocalDate.now();
         if(Period.between(dateOfBirth, currentDate).getYears() < 18)
             throw new ApiException("User must be 18+ years old");
-    }
-    private void isPhoneNumberValid (String phoneNumber) {
-        Pattern p = Pattern.compile("\\d{4}9\\d{8}");
-        Matcher m = p.matcher(phoneNumber);
-        if (!m.find())
-            throw  new ApiException("Phone number must be valid.");
     }
 }
