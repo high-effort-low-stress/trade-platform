@@ -4,6 +4,7 @@ import com.github.hels.tradeplatform.onboarding.dto.CreateUserDto;
 import com.github.hels.tradeplatform.onboarding.models.User;
 import com.github.hels.tradeplatform.onboarding.repository.IUserRepository;
 import com.github.hels.tradeplatform.onboarding.service.CreateUserService;
+import com.github.hels.tradeplatform.onboarding.service.InactiveUserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ import java.util.List;
 public class UserController {
     private final CreateUserService createUserService;
     private final IUserRepository iUserRepository;
+    private final InactiveUserService inactiveUserService;
 
     @PostMapping
     public CreateUserDto.Response createUser(
@@ -30,7 +32,6 @@ public class UserController {
         String phoneNumber = requestBody.getPhoneNumber();
         LocalDate birthDate = requestBody.getBirthDate();
 
-
         User user = createUserService.execute(name, document, email, password, phoneNumber, birthDate);
 
         return new CreateUserDto.Response(user.getId().toString());
@@ -38,5 +39,12 @@ public class UserController {
     @GetMapping("/all")
     public List<User> findAll () {
         return iUserRepository.findAll();
+    }
+    @PatchMapping("/{id}")
+    public String inactiveUser (
+           @PathVariable Long id
+    ) {
+         inactiveUserService.execute(id);
+        return "Usuário desativado com sucesso";
     }
 }
