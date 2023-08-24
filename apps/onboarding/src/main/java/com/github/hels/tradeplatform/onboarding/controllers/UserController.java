@@ -5,6 +5,7 @@ import com.github.hels.tradeplatform.onboarding.models.User;
 import com.github.hels.tradeplatform.onboarding.repository.IUserRepository;
 import com.github.hels.tradeplatform.onboarding.service.CreateUserService;
 import com.github.hels.tradeplatform.onboarding.service.InactiveUserService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -36,15 +37,22 @@ public class UserController {
 
         return new CreateUserDto.Response(user.getId().toString());
     }
+
     @GetMapping("/all")
-    public List<User> findAll () {
+    public List<User> findAll() {
         return iUserRepository.findAll();
     }
-    @PatchMapping("/{id}")
-    public String inactiveUser (
-           @PathVariable Long id
+
+    @DeleteMapping("/{id}")
+    public String inactiveUser(
+            @PathVariable Long id, HttpServletResponse response
     ) {
-         inactiveUserService.execute(id);
+        User user = inactiveUserService.execute(id);
+        if (user == null) {
+            response.setStatus(204);
+            return null;
+        }
+
         return "Usuário desativado com sucesso";
     }
 }
