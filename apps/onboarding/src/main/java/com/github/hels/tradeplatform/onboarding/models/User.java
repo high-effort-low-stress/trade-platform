@@ -11,11 +11,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "user", schema = "onboarding", uniqueConstraints = {
-        @UniqueConstraint(name = "unq_document_active", columnNames = {"document", "is_active"}),
-        @UniqueConstraint(name = "unq_email_active", columnNames = {"email", "is_active"}),
-        @UniqueConstraint(name = "unq_phone_number_active", columnNames = {"phone_number", "is_active"})
-})
+@Table(name = "user", schema = "onboarding")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
