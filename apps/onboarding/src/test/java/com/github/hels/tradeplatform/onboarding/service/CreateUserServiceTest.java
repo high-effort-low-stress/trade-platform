@@ -58,7 +58,7 @@ class CreateUserServiceTest {
 
     @Test
     @DisplayName("should throw if document, phone or email is duplicated")
-    void shouldThrowIfUserAgeIsLesssThan18YearsOld(){
+    void shouldThrowIfDocumentPhoneOrEmailIsDuplicated(){
 
         doReturn(List.of(new User())).when(repository).findDuplicates(any(), any(), any());
 
@@ -74,6 +74,43 @@ class CreateUserServiceTest {
 
         Assertions.assertEquals("User already registered.", exception.getMessage());
 
+    }
+
+    @Test
+    @DisplayName("should throw if document, phone or email is duplicated")
+    void shouldThrowIfDocumentPhaoneOrEmailIsDuplicated(){
+
+        doReturn(List.of()).when(repository).findDuplicates(any(), any(), any());
+
+        RuntimeException exception = Assertions.assertThrows(
+                RuntimeException.class,
+                () -> service.execute("Caio",
+                        "123456498",
+                        "cadasdasdasrres@gmail.com",
+                        null,
+                        "551234567898",
+                        LocalDate.of(2000,8,23))
+        );
+
+        Assertions.assertEquals("Password can't be null.", exception.getMessage());
+
+    }
+    @Test
+    @DisplayName("should save user if no errors were found")
+    void shouldSaveUserIfNoErrorsWereFound(){
+
+        doReturn(List.of()).when(repository).findDuplicates(any(), any(), any());
+        doReturn(new User()).when(repository).save(any());
+
+        service.execute("Caio",
+                        "123456498",
+                        "cadasdasdasrres@gmail.com",
+                        "12345678",
+                        "551234567898",
+                        LocalDate.of(2000,8,23));
+
+
+        verify(repository, times(1)).save(any());
     }
 
 }

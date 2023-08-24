@@ -26,6 +26,9 @@ public class CreateUserService {
         isLegalAge(birthDate);
         isDuplicated(document, email, phoneNumber);
 
+        if (Objects.isNull(password))
+            throw new RuntimeException("Password can't be null.");
+
         User user = new User();
 
         user.setName(name);
