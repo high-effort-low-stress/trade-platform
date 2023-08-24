@@ -50,12 +50,18 @@ public class GlobalExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(RuntimeException.class)
+    public StandardError handle(RuntimeException ex) {
+        log(ex, 10);
+        return new StandardError("An internal error has ocurred");
+    }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     public StandardError handle(Exception ex) {
         log(ex, 10);
         return new StandardError("An internal error has ocurred");
     }
-
 
     private void log(Exception ex, int stackNumbers) {
         log.error("Message: {}", ex.getMessage());
