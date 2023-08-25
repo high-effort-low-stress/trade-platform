@@ -77,8 +77,8 @@ class CreateUserServiceTest {
     }
 
     @Test
-    @DisplayName("should throw if document, phone or email is duplicated")
-    void shouldThrowIfDocumentPhaoneOrEmailIsDuplicated(){
+    @DisplayName("should throw password is null")
+    void shouldThrowPasswordIsNull(){
 
         doReturn(List.of()).when(repository).findDuplicates(any(), any(), any());
 

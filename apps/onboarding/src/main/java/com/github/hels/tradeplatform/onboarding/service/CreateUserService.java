@@ -3,7 +3,6 @@ package com.github.hels.tradeplatform.onboarding.service;
 import com.github.hels.tradeplatform.onboarding.exceptions.ApiException;
 import com.github.hels.tradeplatform.onboarding.models.User;
 import com.github.hels.tradeplatform.onboarding.repository.IUserRepository;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
@@ -15,11 +14,10 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
-@AllArgsConstructor
 @RequiredArgsConstructor
 public class CreateUserService {
     private final IUserRepository repository;
-    private Clock clock = Clock.systemDefaultZone();
+    private final Clock clock;
 
     public User execute(String name, String document, String email, String password, String phoneNumber, LocalDate birthDate) {
 
