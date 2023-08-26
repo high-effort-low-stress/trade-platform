@@ -1,5 +1,6 @@
 package com.github.hels.tradeplatform.onboarding.service;
 
+import com.github.hels.tradeplatform.onboarding.exceptions.ApiException;
 import com.github.hels.tradeplatform.onboarding.models.User;
 import com.github.hels.tradeplatform.onboarding.repository.IUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,15 +17,19 @@ public class UpdateUserService {
         User user = repository.findById(id).orElse(null);
 
         if (Objects.isNull(user) || !user.isActive())
-            return null;
+            throw new ApiException("Usuário não encontrado");
 
-        if (!email.isBlank() || !phoneNumber.isBlank()) {
-        user.setEmail(email);
-        user.setPhoneNumber(phoneNumber);
+        if (Objects.nonNull(email)  && !email.isBlank()) {
+            user.setEmail(email);
+        }
+
+        if (Objects.nonNull(phoneNumber) && !phoneNumber.isBlank()) {
+            user.setPhoneNumber(phoneNumber);
         }
 
         return repository.save(user);
     }
 
-
 }
+
+

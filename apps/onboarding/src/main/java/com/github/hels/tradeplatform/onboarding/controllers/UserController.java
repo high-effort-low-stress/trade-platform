@@ -72,12 +72,9 @@ public class UserController {
 
         User user = updateUserService.execute(id, email, phoneNumber);
 
-        if (user == null) {
-            response.setStatus(400);
-            return null;
-        }
 
         response.setStatus(200);
+
         return new UpdateUserDto.Response(user.getId());
     }
 }
