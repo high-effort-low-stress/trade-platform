@@ -71,8 +71,6 @@ public class UserController {
         String phoneNumber = requestBody.getPhoneNumber();
 
         User user = updateUserService.execute(id, email, phoneNumber);
-
-
         response.setStatus(200);
 
         return new UpdateUserDto.Response(user.getId());
