@@ -1,5 +1,6 @@
 package com.github.hels.tradeplatform.specifications;
 
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.jpa.domain.Specification;
@@ -9,7 +10,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-@Setter
+@Builder
 @RequiredArgsConstructor
 public class ApiSpecification<T> implements Specification<T> {
     private Input<T> input;
