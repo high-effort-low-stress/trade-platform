@@ -2,12 +2,14 @@ package com.github.hels.tradeplatform.onboarding.controllers;
 
 import com.github.hels.tradeplatform.onboarding.docs.CreateUserApi;
 import com.github.hels.tradeplatform.onboarding.dto.CreateUserDto;
+import com.github.hels.tradeplatform.onboarding.dto.UpdateUserDto;
 import com.github.hels.tradeplatform.onboarding.models.User;
 import com.github.hels.tradeplatform.onboarding.repository.IUserRepository;
 import com.github.hels.tradeplatform.onboarding.service.CreateUserService;
 import com.github.hels.tradeplatform.onboarding.service.InactiveUserService;
-import jakarta.servlet.http.HttpServletResponse;
+import com.github.hels.tradeplatform.onboarding.service.UpdateUserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +26,7 @@ public class UserController {
     private final CreateUserService createUserService;
     private final IUserRepository iUserRepository;
     private final InactiveUserService inactiveUserService;
+    private final UpdateUserService updateUserService;
 
     @PostMapping
     @CreateUserApi
@@ -58,5 +61,18 @@ public class UserController {
         }
 
         return "Usuário desativado com sucesso";
+    }
+
+    @PatchMapping("/{id}")
+    public UpdateUserDto.Response patchUser (
+            @PathVariable Long id, @RequestBody UpdateUserDto.Request requestBody, HttpServletResponse response
+            ) {
+        String email = requestBody.getEmail();
+        String phoneNumber = requestBody.getPhoneNumber();
+
+        User user = updateUserService.execute(id, email, phoneNumber);
+        response.setStatus(200);
+
+        return new UpdateUserDto.Response(user.getId());
     }
 }
