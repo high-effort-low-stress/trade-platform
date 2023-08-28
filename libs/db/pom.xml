@@ -5,23 +5,31 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.github.hels.tradeplatform</groupId>
-        <artifactId>trade-platform</artifactId>
+        <artifactId>libs</artifactId>
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>libs</artifactId>
-    <packaging>pom</packaging>
     <version>${revision}</version>
-
-    <modules>
-        <module>http</module>
-        <module>db</module>
-    </modules>
+    <artifactId>db</artifactId>
 
     <properties>
         <java.version>${java.version}</java.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>3.1.2</version>
+        </dependency>
+    </dependencies>
 </project>
