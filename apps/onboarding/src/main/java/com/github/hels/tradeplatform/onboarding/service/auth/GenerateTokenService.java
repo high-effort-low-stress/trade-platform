@@ -1,11 +1,13 @@
-package com.github.hels.tradeplatform.onboarding.service;
+package com.github.hels.tradeplatform.onboarding.service.auth;
 
 import com.github.hels.tradeplatform.db.specifications.ApiSpecification;
 import com.github.hels.tradeplatform.db.specifications.Input;
 import com.github.hels.tradeplatform.db.specifications.Operator;
 import com.github.hels.tradeplatform.onboarding.exceptions.ApiException;
+import com.github.hels.tradeplatform.onboarding.mappers.UserMapper;
 import com.github.hels.tradeplatform.onboarding.models.User;
 import com.github.hels.tradeplatform.onboarding.repository.IUserRepository;
+import com.github.hels.tradeplatform.onboarding.utils.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -14,10 +16,12 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class LoginUserService {
+public class GenerateTokenService {
     private final IUserRepository repository;
+    private final JwtTokenUtil jwtTokenUtil;
+    private final UserMapper userMapper;
 
-    public void execute(String email, String password){
+    public String execute(String email, String password){
 
         User user = repository.findAll(buildSpecification(email))
                 .stream()
@@ -28,7 +32,7 @@ public class LoginUserService {
             throw new ApiException("Usuário ou senha não correspondem");
         }
 
-
+        return jwtTokenUtil.generateToken(userMapper.toUserDto(user));
     }
 
     private ApiSpecification<User> buildSpecification(String email){

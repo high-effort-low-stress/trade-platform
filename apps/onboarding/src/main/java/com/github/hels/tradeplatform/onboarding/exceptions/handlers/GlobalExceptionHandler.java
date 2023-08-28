@@ -1,6 +1,7 @@
 package com.github.hels.tradeplatform.onboarding.exceptions.handlers;
 
 import com.github.hels.tradeplatform.onboarding.exceptions.ApiException;
+import com.github.hels.tradeplatform.onboarding.exceptions.UnauthorizedException;
 import com.github.hels.tradeplatform.onboarding.exceptions.responses.StandardError;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,13 @@ public class GlobalExceptionHandler {
     public StandardError handle(ApiException ex) {
         log(ex, 10);
         return new StandardError(ex.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(UnauthorizedException.class)
+    public StandardError handle(UnauthorizedException ex){
+        log(ex, 10);
+        return new StandardError("Unauthorized");
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

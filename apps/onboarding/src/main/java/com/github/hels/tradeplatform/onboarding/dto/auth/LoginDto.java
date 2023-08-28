@@ -1,4 +1,4 @@
-package com.github.hels.tradeplatform.onboarding.dto;
+package com.github.hels.tradeplatform.onboarding.dto.auth;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -31,7 +31,7 @@ public class LoginDto {
     @NoArgsConstructor
     public static class Response{
         private String token;
-        private Integer expiresIn;
+        private Integer expiresIn = 3600;
     }
 
 }
