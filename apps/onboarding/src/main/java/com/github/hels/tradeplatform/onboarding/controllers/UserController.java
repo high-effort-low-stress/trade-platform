@@ -50,6 +50,7 @@ public class UserController {
         return iUserRepository.findAll();
     }
 
+
     @DeleteMapping("/{id}")
     public String inactiveUser(
             @PathVariable Long id
