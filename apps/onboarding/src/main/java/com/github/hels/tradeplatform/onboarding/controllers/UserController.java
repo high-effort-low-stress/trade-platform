@@ -62,7 +62,7 @@ public class UserController {
     }
 
     @UpdateUserApi
-    @PatchMapping(value = "/{id}"   )
+    @PatchMapping("/{id}")
     public UpdateUserDto.Response patchUser (
             @PathVariable Long id,
             @Valid @RequestBody UpdateUserDto.Request requestBody
