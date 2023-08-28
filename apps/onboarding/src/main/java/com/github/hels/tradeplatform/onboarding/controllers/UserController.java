@@ -57,9 +57,6 @@ public class UserController {
             @PathVariable Long id
     ) {
         User user = inactiveUserService.execute(id);
-        if (user == null) {
-            return null;
-        }
 
         return "Usuário desativado com sucesso";
     }
