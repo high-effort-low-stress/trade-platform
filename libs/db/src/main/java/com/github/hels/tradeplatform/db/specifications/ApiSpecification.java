@@ -1,11 +1,11 @@
-package com.github.hels.tradeplatform.specifications;
+package com.github.hels.tradeplatform.db.specifications;
 
 import lombok.Builder;
+import jakarta.persistence.criteria.*;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.jpa.domain.Specification;
 
-import javax.persistence.criteria.*;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -16,6 +16,7 @@ public class ApiSpecification<T> implements Specification<T> {
     private Input<T> input;
     private final Set<Predicate> predicates = new HashSet<>();
 
+    @Override
     public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
         addPredicates(root, builder);
         return builder.and(predicates.toArray(new Predicate[0]));
