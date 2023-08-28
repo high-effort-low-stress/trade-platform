@@ -55,15 +55,12 @@ public class UserController {
             @PathVariable Long id
     ) {
         User user = inactiveUserService.execute(id);
-        if (user == null) {
-            return null;
-        }
 
         return "Usuário desativado com sucesso";
     }
 
     @UpdateUserApi
-    @PatchMapping(value = "/{id}"   )
+    @PatchMapping(value = "/{id}")
     public UpdateUserDto.Response patchUser (
             @PathVariable Long id,
             @Valid @RequestBody UpdateUserDto.Request requestBody
