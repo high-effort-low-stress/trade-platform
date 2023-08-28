@@ -1,4 +1,4 @@
-package com.github.hels.tradeplatform.specifications;
+package com.github.hels.tradeplatform.db.specifications;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
