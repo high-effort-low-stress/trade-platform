@@ -36,7 +36,7 @@ public class CreateUserDto {
         private String password;
 
         @NotBlank(message = "A phone number must be provided.")
-        @Pattern(regexp = "\\d{4}9\\d{8}", message = "Phone number must be valid.")
+        @Pattern(regexp = "55\\d{4}9\\d{8}", message = "Phone number must be valid.")
         private String phoneNumber;
 
         @NotNull(message = "You must provide your birth date.")

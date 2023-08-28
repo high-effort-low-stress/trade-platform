@@ -23,6 +23,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class UpdateUserServiceTest {
+
     @InjectMocks
     UpdateUserService service;
 
@@ -35,8 +36,8 @@ public class UpdateUserServiceTest {
         user = new User();
     }
 
-  @Captor
-  ArgumentCaptor<User> userCaptor;
+    @Captor
+    ArgumentCaptor<User> userCaptor;
 
     @Test
     @DisplayName("Should update user info if user exists and is active")
@@ -56,7 +57,43 @@ public class UpdateUserServiceTest {
         assertNotNull(result);
         assertEquals(user.getEmail(), userCaptor.getValue().getEmail());
         assertEquals(user.getPhoneNumber(), userCaptor.getValue().getPhoneNumber());
+    }
 
+    @Test
+    @DisplayName("Should update user phone number if user exists and is active")
+    void shouldUpdateUserPhoneNumberIfUserExistsAndIsActive() {
+        user.setActive(true);
+        user.setPhoneNumber("5521987654321");
+        userCaptor = ArgumentCaptor.forClass(User.class);
+
+        doReturn(new User()).when(repository).save(any());
+        doReturn(Optional.of(user)).when(repository).findById(any());
+
+        User result = service.execute(any(), null, "5522987654321");
+
+        verify(repository, times(1)).save(userCaptor.capture());
+
+        assertNotNull(result);
+        assertEquals(user.getEmail(), userCaptor.getValue().getEmail());
+        assertEquals(user.getPhoneNumber(), userCaptor.getValue().getPhoneNumber());
+    }
+    @Test
+    @DisplayName("Should update user email if user exists and is active")
+    void shouldUpdateUserEmailIfUserExistsAndIsActive() {
+        user.setActive(true);
+        user.setEmail("email@gmail.com");
+        userCaptor = ArgumentCaptor.forClass(User.class);
+
+        doReturn(new User()).when(repository).save(any());
+        doReturn(Optional.of(user)).when(repository).findById(any());
+
+        User result = service.execute(any(), "emailUpdate@gmail.com", null);
+
+        verify(repository, times(1)).save(userCaptor.capture());
+
+        assertNotNull(result);
+        assertEquals(user.getEmail(), userCaptor.getValue().getEmail());
+        assertEquals(user.getPhoneNumber(), userCaptor.getValue().getPhoneNumber());
     }
 
     @Test
@@ -73,6 +110,5 @@ public class UpdateUserServiceTest {
         assertThat(e, notNullValue());
         assertThat(e.getMessage(), is ("Usuário não encontrado"));
         assertThat(e.getCause(), nullValue());
-
     }
 }

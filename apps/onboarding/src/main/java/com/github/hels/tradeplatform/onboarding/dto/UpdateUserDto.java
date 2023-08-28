@@ -16,7 +16,7 @@ public class UpdateUserDto {
         @Pattern(regexp = ".*(\\w+\\.)+\\w+$", message = "Email must be valid.")
         private String email;
 
-        @Pattern(regexp = "\\d{4}9\\d{8}", message = "Phone number must be valid.")
+        @Pattern(regexp = "55\\d{4}9\\d{8}", message = "Phone number must be valid.")
         private String phoneNumber;
 
     }
