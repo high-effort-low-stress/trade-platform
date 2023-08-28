@@ -2,6 +2,9 @@ package com.github.hels.tradeplatform.onboarding.docs;
 
 import com.github.hels.tradeplatform.onboarding.docs.schemas.UpdateUserSchema;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -19,6 +22,16 @@ import java.lang.annotation.*;
         summary = "Atualização de dados cadastrais: email e/ ou telefone",
         method = "PATCH"
 )
+
+@Parameters(value = {
+    @Parameter(
+            name = "id",
+            in =  ParameterIn.PATH, description = "Id do usuário a ser atualizado.",
+            example = "1001",
+            required = true
+    )
+})
+
 @RequestBody(
         description = "Dados a serem atualizados",
         content = @Content(

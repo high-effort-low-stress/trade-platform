@@ -1,6 +1,7 @@
 package com.github.hels.tradeplatform.onboarding.controllers;
 
 import com.github.hels.tradeplatform.onboarding.docs.CreateUserApi;
+import com.github.hels.tradeplatform.onboarding.docs.InactiveUserApi;
 import com.github.hels.tradeplatform.onboarding.docs.UpdateUserApi;
 import com.github.hels.tradeplatform.onboarding.dto.CreateUserDto;
 import com.github.hels.tradeplatform.onboarding.dto.UpdateUserDto;
@@ -50,18 +51,21 @@ public class UserController {
         return iUserRepository.findAll();
     }
 
-
+    @InactiveUserApi
     @DeleteMapping("/{id}")
     public String inactiveUser(
             @PathVariable Long id
     ) {
         User user = inactiveUserService.execute(id);
+        if (user == null) {
+            return null;
+        }
 
         return "Usuário desativado com sucesso";
     }
 
     @UpdateUserApi
-    @PatchMapping(value = "/{id}")
+    @PatchMapping(value = "/{id}"   )
     public UpdateUserDto.Response patchUser (
             @PathVariable Long id,
             @Valid @RequestBody UpdateUserDto.Request requestBody
