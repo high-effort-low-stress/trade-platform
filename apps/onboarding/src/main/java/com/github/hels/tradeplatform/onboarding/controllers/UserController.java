@@ -40,8 +40,9 @@ public class UserController {
         String password = requestBody.getPassword();
         String phoneNumber = requestBody.getPhoneNumber();
         LocalDate birthDate = requestBody.getBirthDate();
+        String zipCode = requestBody.getZipCode();
 
-        User user = createUserService.execute(name, document, email, password, phoneNumber, birthDate);
+        User user = createUserService.execute(name, document, email, password, phoneNumber, birthDate, zipCode);
 
         return new CreateUserDto.Response(user.getId().toString());
     }
@@ -63,10 +64,10 @@ public class UserController {
 
     @UpdateUserApi
     @PatchMapping("/{id}")
-    public UpdateUserDto.Response patchUser (
+    public UpdateUserDto.Response patchUser(
             @PathVariable Long id,
             @Valid @RequestBody UpdateUserDto.Request requestBody
-            ) {
+    ) {
         String email = requestBody.getEmail();
         String phoneNumber = requestBody.getPhoneNumber();
 

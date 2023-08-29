@@ -3,7 +3,10 @@ package com.github.hels.tradeplatform.onboarding.service;
 import com.github.hels.tradeplatform.db.specifications.ApiSpecification;
 import com.github.hels.tradeplatform.db.specifications.Input;
 import com.github.hels.tradeplatform.db.specifications.Operator;
+import com.github.hels.tradeplatform.onboarding.dto.ViaCepDto;
 import com.github.hels.tradeplatform.onboarding.exceptions.ApiException;
+import com.github.hels.tradeplatform.onboarding.mappers.AddressMapper;
+import com.github.hels.tradeplatform.onboarding.models.Address;
 import com.github.hels.tradeplatform.onboarding.models.User;
 import com.github.hels.tradeplatform.onboarding.repository.IUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +24,11 @@ import java.util.Objects;
 public class CreateUserService {
     private final IUserRepository repository;
     private final Clock clock;
+    private final ViaCepService viaCepService;
+    private final AddressMapper addressMapper;
 
-    public User execute(String name, String document, String email, String password, String phoneNumber, LocalDate birthDate) {
+    public User execute(String name, String document, String email, String password, String phoneNumber,
+                        LocalDate birthDate, String zipCode) {
 
         validateLegalAge(birthDate);
         findDuplicates(document, email, phoneNumber);
@@ -38,6 +44,13 @@ public class CreateUserService {
         user.setPassword(BCrypt.hashpw(password, BCrypt.gensalt()));
         user.setPhoneNumber(phoneNumber);
         user.setBirthDate(birthDate);
+
+        ViaCepDto viaCepDto = viaCepService.execute(zipCode);
+        viaCepDto.setZipCode(zipCodeFormatter(zipCode));
+        Address address = addressMapper.toAddress(viaCepDto);
+
+        address.setUser(user);
+        user.setAddress(List.of(address));
 
         return repository.save(user);
     }
@@ -57,6 +70,10 @@ public class CreateUserService {
 
         if (Period.between(birthDate, currentDate).getYears() < 18)
             throw new ApiException("User must be 18+ years old");
+    }
+
+    private String zipCodeFormatter(String zipCode) {
+        return zipCode.replace("-", "");
     }
 
     private ApiSpecification<User> buildSpecification(String document, String email, String phoneNumber) {
