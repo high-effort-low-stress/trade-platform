@@ -22,11 +22,9 @@ public class ViaCepController {
     private final ViaCepService service;
 
     @Operation(description = "busca endereço utilizando API viaCep", method = "GET")
-    @Parameter(name ="zipCode", in =ParameterIn.PATH, required = true)
+    @Parameter(name = "zipCode", in = ParameterIn.PATH, description = "cep a ser consultado", required = true)
     @GetMapping("/{zipCode}")
-    public ResponseEntity<ViaCepDto> test(
-            @PathVariable(value = "zipCode") String zipCode
-    ) {
+    public ResponseEntity<ViaCepDto> test(@PathVariable(value = "zipCode") String zipCode) {
         return ResponseEntity.ok(service.execute(zipCode));
     }
 }
