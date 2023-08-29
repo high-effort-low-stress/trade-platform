@@ -6,6 +6,7 @@ import com.github.hels.tradeplatform.onboarding.repository.IUserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.time.Clock;
 import java.time.LocalDate;
@@ -60,7 +61,7 @@ class CreateUserServiceTest {
     @DisplayName("should throw if document, phone or email is duplicated")
     void shouldThrowIfDocumentPhoneOrEmailIsDuplicated(){
 
-        doReturn(List.of(new User())).when(repository).findDuplicates(any(), any(), any());
+        doReturn(List.of(new User())).when(repository).findAll(any(Specification.class));
 
         ApiException exception = Assertions.assertThrows(
                 ApiException.class,
@@ -80,7 +81,7 @@ class CreateUserServiceTest {
     @DisplayName("should throw password is null")
     void shouldThrowPasswordIsNull(){
 
-        doReturn(List.of()).when(repository).findDuplicates(any(), any(), any());
+        doReturn(List.of()).when(repository).findAll(any(Specification.class));
 
         RuntimeException exception = Assertions.assertThrows(
                 RuntimeException.class,
@@ -99,7 +100,7 @@ class CreateUserServiceTest {
     @DisplayName("should save user if no errors were found")
     void shouldSaveUserIfNoErrorsWereFound(){
 
-        doReturn(List.of()).when(repository).findDuplicates(any(), any(), any());
+        doReturn(List.of()).when(repository).findAll(any(Specification.class));
         doReturn(new User()).when(repository).save(any());
 
         service.execute("Caio",

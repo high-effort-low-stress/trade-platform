@@ -1,5 +1,8 @@
 package com.github.hels.tradeplatform.onboarding.service;
 
+import com.github.hels.tradeplatform.db.specifications.ApiSpecification;
+import com.github.hels.tradeplatform.db.specifications.Input;
+import com.github.hels.tradeplatform.db.specifications.Operator;
 import com.github.hels.tradeplatform.onboarding.exceptions.ApiException;
 import com.github.hels.tradeplatform.onboarding.models.User;
 import com.github.hels.tradeplatform.onboarding.repository.IUserRepository;
@@ -21,8 +24,8 @@ public class CreateUserService {
 
     public User execute(String name, String document, String email, String password, String phoneNumber, LocalDate birthDate) {
 
-        isLegalAge(birthDate);
-        isDuplicated(document, email, phoneNumber);
+        validateLegalAge(birthDate);
+        findDuplicates(document, email, phoneNumber);
 
         if (Objects.isNull(password))
             throw new RuntimeException("Password can't be null.");
@@ -39,14 +42,14 @@ public class CreateUserService {
         return repository.save(user);
     }
 
-    private void isDuplicated(String document, String email, String phoneNumber) {
-        List<User> users = repository.findDuplicates(document, email, phoneNumber);
+    private void findDuplicates(String document, String email, String phoneNumber) {
+        List<User> users = repository.findAll(buildSpecification(document, email, phoneNumber));
 
         if (!users.isEmpty())
             throw new ApiException("User already registered.");
     }
 
-    private void isLegalAge(LocalDate birthDate) {
+    private void validateLegalAge(LocalDate birthDate) {
         LocalDate currentDate = LocalDate.now(clock);
 
         if (Objects.isNull(birthDate))
@@ -54,5 +57,17 @@ public class CreateUserService {
 
         if(Period.between(birthDate, currentDate).getYears() < 18)
             throw new ApiException("User must be 18+ years old");
+    }
+    private ApiSpecification<User> buildSpecification(String document, String email, String phoneNumber){
+        Input<User> input = new Input<>();
+        input
+                .addRootField("document", Operator.EQUAL, document)
+                .addRootField("email", Operator.EQUAL, email)
+                .addRootField("phoneNumber", Operator.EQUAL, phoneNumber)
+                .addRootField("isActive", Operator.EQUAL, true);
+
+        return ApiSpecification.<User>builder()
+                .input(input)
+                .build();
     }
 }
