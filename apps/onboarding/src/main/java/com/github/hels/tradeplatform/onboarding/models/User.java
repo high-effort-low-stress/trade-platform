@@ -31,4 +31,5 @@ public class User {
     private LocalDate birthDate;
     @Column(name = "is_active", nullable = false)
     private boolean isActive = true;
+
 }

@@ -18,7 +18,7 @@ import static org.mockito.Mockito.*;
 
 class CreateUserServiceTest {
     private final static LocalDateTime MOCK_DATE = LocalDateTime
-            .of(2023,8,20,20,20);
+            .of(2023, 8, 20, 20, 20);
     private final IUserRepository repository = mock(IUserRepository.class);
     private final Clock clock = Clock.fixed(MOCK_DATE.toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
 
@@ -26,16 +26,16 @@ class CreateUserServiceTest {
 
     @Test
     @DisplayName("should throw if birth date is null")
-    void shouldThrowIfBirthDateIsNull(){
+    void shouldThrowIfBirthDateIsNull() {
         RuntimeException exception = Assertions.assertThrows(
                 RuntimeException.class,
                 () -> service.execute(
-                null,
-                null,
-                null,
-                null,
-                null,
-                null)
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null)
         );
 
         Assertions.assertEquals("Birth date can't be null", exception.getMessage());
@@ -43,7 +43,7 @@ class CreateUserServiceTest {
 
     @Test
     @DisplayName("should throw if user age is less than 18 years old")
-    void shouldThrowIfUserAgeIsLessThan18YearsOld(){
+    void shouldThrowIfUserAgeIsLessThan18YearsOld() {
         ApiException exception = Assertions.assertThrows(
                 ApiException.class,
                 () -> service.execute("Caio",
@@ -51,7 +51,7 @@ class CreateUserServiceTest {
                         "cadasdasdasrres@gmail.com",
                         "12345678",
                         "551234567898",
-                        LocalDate.of(2015,8,23))
+                        LocalDate.of(2015, 8, 23))
         );
 
         Assertions.assertEquals("User must be 18+ years old", exception.getMessage());
@@ -59,7 +59,7 @@ class CreateUserServiceTest {
 
     @Test
     @DisplayName("should throw if document, phone or email is duplicated")
-    void shouldThrowIfDocumentPhoneOrEmailIsDuplicated(){
+    void shouldThrowIfDocumentPhoneOrEmailIsDuplicated() {
 
         doReturn(List.of(new User())).when(repository).findAll(any(Specification.class));
 
@@ -70,7 +70,7 @@ class CreateUserServiceTest {
                         "cadasdasdasrres@gmail.com",
                         "12345678",
                         "551234567898",
-                        LocalDate.of(2000,8,23))
+                        LocalDate.of(2000, 8, 23))
         );
 
         Assertions.assertEquals("User already registered.", exception.getMessage());
@@ -79,7 +79,7 @@ class CreateUserServiceTest {
 
     @Test
     @DisplayName("should throw password is null")
-    void shouldThrowPasswordIsNull(){
+    void shouldThrowPasswordIsNull() {
 
         doReturn(List.of()).when(repository).findAll(any(Specification.class));
 
@@ -90,25 +90,26 @@ class CreateUserServiceTest {
                         "cadasdasdasrres@gmail.com",
                         null,
                         "551234567898",
-                        LocalDate.of(2000,8,23))
+                        LocalDate.of(2000, 8, 23))
         );
 
         Assertions.assertEquals("Password can't be null.", exception.getMessage());
 
     }
+
     @Test
     @DisplayName("should save user if no errors were found")
-    void shouldSaveUserIfNoErrorsWereFound(){
+    void shouldSaveUserIfNoErrorsWereFound() {
 
         doReturn(List.of()).when(repository).findAll(any(Specification.class));
         doReturn(new User()).when(repository).save(any());
 
         service.execute("Caio",
-                        "123456498",
-                        "cadasdasdasrres@gmail.com",
-                        "12345678",
-                        "551234567898",
-                        LocalDate.of(2000,8,23));
+                "123456498",
+                "cadasdasdasrres@gmail.com",
+                "12345678",
+                "551234567898",
+                LocalDate.of(2000, 8, 23));
 
 
         verify(repository, times(1)).save(any());

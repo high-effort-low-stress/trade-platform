@@ -55,10 +55,11 @@ public class CreateUserService {
         if (Objects.isNull(birthDate))
             throw new RuntimeException("Birth date can't be null");
 
-        if(Period.between(birthDate, currentDate).getYears() < 18)
+        if (Period.between(birthDate, currentDate).getYears() < 18)
             throw new ApiException("User must be 18+ years old");
     }
-    private ApiSpecification<User> buildSpecification(String document, String email, String phoneNumber){
+
+    private ApiSpecification<User> buildSpecification(String document, String email, String phoneNumber) {
         Input<User> input = new Input<>();
         input
                 .addRootField("document", Operator.EQUAL, document)
