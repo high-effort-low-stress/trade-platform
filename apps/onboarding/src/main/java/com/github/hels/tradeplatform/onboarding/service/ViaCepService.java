@@ -11,6 +11,9 @@ public class ViaCepService {
     private final IViaCep address;
 
     public ViaCepDto execute(String zipCode) {
-        return address.viaCep(zipCode);
+        return address.viaCep(zipCodeFormatter(zipCode));
+    }
+    private String zipCodeFormatter(String zipCode) {
+        return  zipCode.replace("-", "");
     }
 }
