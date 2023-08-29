@@ -4,9 +4,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.auth0.jwt.interfaces.JWTVerifier;
+import com.github.hels.tradeplatform.onboarding.config.SecurityConfig;
 import com.github.hels.tradeplatform.onboarding.dto.domain.UserDto;
-import com.github.hels.tradeplatform.onboarding.exceptions.ApiException;
 import com.github.hels.tradeplatform.onboarding.exceptions.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -19,6 +18,7 @@ import java.time.temporal.ChronoUnit;
 @Component
 @RequiredArgsConstructor
 public class JwtTokenUtil implements Serializable {
+    private final SecurityConfig config;
 
     public String getUsernameFromToken(String token) {
         return decode(token).getSubject();
@@ -41,7 +41,6 @@ public class JwtTokenUtil implements Serializable {
     }
 
     private String doGenerateToken(UserDto user) {
-        Algorithm algorithm = Algorithm.HMAC256("secret");
         return JWT.create()
                 .withIssuer("trade-platform")
                 .withClaim("phone_number", user.getPhoneNumber())
@@ -50,13 +49,13 @@ public class JwtTokenUtil implements Serializable {
                 .withIssuedAt(LocalDateTime.now().toInstant(ZoneOffset.UTC))
                 .withExpiresAt(LocalDateTime.now().toInstant(ZoneOffset.UTC).plus(1, ChronoUnit.HOURS))
                 .withSubject(user.getEmail())
-                .sign(algorithm);
+                .sign(Algorithm.HMAC256(config.getSecret()));
     }
 
     public void verifyToken(String bearer){
         try{
             String token = bearer.split(" ")[1];
-            JWT.require(Algorithm.HMAC256("secret"))
+            JWT.require(Algorithm.HMAC256(config.getSecret()))
                     .withIssuer("trade-platform")
                     .build()
                     .verify(token);
@@ -66,7 +65,5 @@ public class JwtTokenUtil implements Serializable {
         } catch(Exception ex){
             throw new RuntimeException("Erro ao verificar token");
         }
-
     }
-
 }

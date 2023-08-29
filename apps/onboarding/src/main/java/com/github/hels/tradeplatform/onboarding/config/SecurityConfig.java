@@ -10,6 +10,5 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties(prefix = "trade.platform.security")
 public class SecurityConfig {
-    private String publicKey;
-    private String privateKey;
+    private String secret;
 }
