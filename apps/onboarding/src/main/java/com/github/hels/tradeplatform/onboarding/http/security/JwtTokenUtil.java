@@ -1,4 +1,4 @@
-package com.github.hels.tradeplatform.onboarding.utils;
+package com.github.hels.tradeplatform.onboarding.http.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;

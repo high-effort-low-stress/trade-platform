@@ -1,6 +1,6 @@
 package com.github.hels.tradeplatform.onboarding.service.auth;
 
-import com.github.hels.tradeplatform.onboarding.utils.JwtTokenUtil;
+import com.github.hels.tradeplatform.onboarding.http.security.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

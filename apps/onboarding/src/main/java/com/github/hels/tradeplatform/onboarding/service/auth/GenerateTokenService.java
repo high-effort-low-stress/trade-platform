@@ -7,7 +7,7 @@ import com.github.hels.tradeplatform.onboarding.exceptions.ApiException;
 import com.github.hels.tradeplatform.onboarding.mappers.UserMapper;
 import com.github.hels.tradeplatform.onboarding.models.User;
 import com.github.hels.tradeplatform.onboarding.repository.IUserRepository;
-import com.github.hels.tradeplatform.onboarding.utils.JwtTokenUtil;
+import com.github.hels.tradeplatform.onboarding.http.security.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCrypt;
