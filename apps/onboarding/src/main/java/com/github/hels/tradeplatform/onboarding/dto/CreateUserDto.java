@@ -32,11 +32,12 @@ public class CreateUserDto {
         @Pattern(regexp = ".*(\\w+\\.)+\\w+$", message = "Email must be valid.")
         private String email;
 
+        @ToString.Exclude
         @NotBlank(message = "A password must be provided.")
         private String password;
 
         @NotBlank(message = "A phone number must be provided.")
-        @Pattern(regexp = "55\\d{4}9\\d{8}", message = "Phone number must be valid.")
+        @Pattern(regexp = "55\\d{2}9\\d{8}", message = "Phone number must be valid.")
         private String phoneNumber;
 
         @NotNull(message = "You must provide your birth date.")
