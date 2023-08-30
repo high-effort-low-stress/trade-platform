@@ -3,6 +3,7 @@ package com.github.hels.tradeplatform.onboarding.service.auth;
 import com.github.hels.tradeplatform.db.specifications.ApiSpecification;
 import com.github.hels.tradeplatform.db.specifications.Input;
 import com.github.hels.tradeplatform.db.specifications.Operator;
+import com.github.hels.tradeplatform.onboarding.dto.output.LoginOutputDto;
 import com.github.hels.tradeplatform.onboarding.exceptions.ApiException;
 import com.github.hels.tradeplatform.onboarding.mappers.UserMapper;
 import com.github.hels.tradeplatform.onboarding.models.User;
@@ -13,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
+import java.time.ZoneOffset;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -21,7 +24,7 @@ public class GenerateTokenService {
     private final JwtTokenUtil jwtTokenUtil;
     private final UserMapper userMapper;
 
-    public String execute(String email, String password){
+    public LoginOutputDto execute(String email, String password){
 
         User user = repository.findAll(buildSpecification(email))
                 .stream()
@@ -32,7 +35,9 @@ public class GenerateTokenService {
             throw new ApiException("Usuário ou senha não correspondem");
         }
 
-        return jwtTokenUtil.generateToken(userMapper.toUserDto(user));
+        String token = jwtTokenUtil.generateToken(userMapper.toUserDto(user));
+        Long expiration = jwtTokenUtil.getExpirationDateFromToken(token).toEpochSecond(ZoneOffset.UTC);
+        return new LoginOutputDto(token, expiration);
     }
 
     private ApiSpecification<User> buildSpecification(String email){

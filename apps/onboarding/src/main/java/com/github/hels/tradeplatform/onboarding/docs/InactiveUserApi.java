@@ -1,6 +1,7 @@
 package com.github.hels.tradeplatform.onboarding.docs;
 
 import com.github.hels.tradeplatform.onboarding.docs.schemas.InactiveUserSchema;
+import com.github.hels.tradeplatform.onboarding.docs.errors.ErrorsDescription;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;

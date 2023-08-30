@@ -1,6 +1,10 @@
 package com.github.hels.tradeplatform.onboarding.controllers;
 
-import com.github.hels.tradeplatform.onboarding.dto.auth.LoginDto;
+import com.github.hels.tradeplatform.onboarding.docs.auth.LoginApi;
+import com.github.hels.tradeplatform.onboarding.dto.http.request.LoginRequestDto;
+import com.github.hels.tradeplatform.onboarding.dto.http.response.LoginResponseDto;
+import com.github.hels.tradeplatform.onboarding.dto.output.LoginOutputDto;
+import com.github.hels.tradeplatform.onboarding.mappers.LoginMapper;
 import com.github.hels.tradeplatform.onboarding.service.auth.GenerateTokenService;
 import com.github.hels.tradeplatform.onboarding.service.auth.ValidateTokenService;
 import lombok.RequiredArgsConstructor;
@@ -12,11 +16,13 @@ import org.springframework.web.bind.annotation.*;
 public class LoginController {
     private final GenerateTokenService generateTokenService;
     private final ValidateTokenService validateTokenService;
+    private final LoginMapper mapper;
 
+    @LoginApi
     @PostMapping
-    public LoginDto.Response generate(@RequestBody LoginDto.Request login){
-        String token = generateTokenService.execute(login.getEmail(), login.getPassword());
-        return new LoginDto.Response("Bearer " + token, 3600);
+    public LoginResponseDto generate(@RequestBody LoginRequestDto login){
+        LoginOutputDto output = generateTokenService.execute(login.getEmail(), login.getPassword());
+        return mapper.toResponse(output);
     }
 
     @PostMapping("validate")

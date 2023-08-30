@@ -1,4 +1,4 @@
-package com.github.hels.tradeplatform.onboarding.docs;
+package com.github.hels.tradeplatform.onboarding.docs.errors;
 
 import com.github.hels.tradeplatform.onboarding.exceptions.responses.StandardError;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -14,21 +14,13 @@ import java.lang.annotation.*;
 @Inherited
 @ApiResponses(value = {
         @ApiResponse(
-                responseCode = "400",
-                description = "Erros de Negócio",
-                content = @Content(
-                        mediaType = MediaType.APPLICATION_JSON_VALUE,
-                        schema = @Schema(implementation = StandardError.class)
-                )
-        ),
-        @ApiResponse(
-                responseCode = "500",
-                description = "Erro Interno",
+                responseCode = "401",
+                description = "Não Autorizado",
                 content = @Content(
                         mediaType = MediaType.APPLICATION_JSON_VALUE,
                         schema = @Schema(implementation = StandardError.class)
                 )
         )
 })
-public @interface ErrorsDescription {
+public @interface UnauthorizedErrorDescription {
 }

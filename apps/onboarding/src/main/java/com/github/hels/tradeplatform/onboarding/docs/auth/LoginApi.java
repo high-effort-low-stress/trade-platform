@@ -1,7 +1,9 @@
-package com.github.hels.tradeplatform.onboarding.docs;
+package com.github.hels.tradeplatform.onboarding.docs.auth;
 
-import com.github.hels.tradeplatform.onboarding.docs.schemas.CreateUserSchema;
 import com.github.hels.tradeplatform.onboarding.docs.errors.ErrorsDescription;
+import com.github.hels.tradeplatform.onboarding.docs.errors.UnauthorizedErrorDescription;
+import com.github.hels.tradeplatform.onboarding.docs.schemas.auth.LoginRequestSchema;
+import com.github.hels.tradeplatform.onboarding.docs.schemas.auth.LoginResponseSchema;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,25 +16,26 @@ import java.lang.annotation.*;
 
 @Inherited
 @ErrorsDescription
+@UnauthorizedErrorDescription
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-@Operation(summary = "Criação de um novo usuário")
+@Operation(summary = "Autenticação de um usuário")
 @RequestBody(
-        description = "Dados a cadastrar",
+        description = "Credenciais do usuário",
         content = @Content(
-                schema = @Schema(implementation = CreateUserSchema.Request.class),
+                schema = @Schema(implementation = LoginRequestSchema.class),
                 mediaType = MediaType.APPLICATION_JSON_VALUE
         )
 )
 @ApiResponses(value = {
         @ApiResponse(
                 responseCode = "200",
-                description = "Cadastrado com sucesso",
+                description = "Autenticado com sucesso",
                 content = @Content(
-                        schema = @Schema(implementation = CreateUserSchema.Response.class),
+                                schema = @Schema(implementation = LoginResponseSchema.class),
                         mediaType = MediaType.APPLICATION_JSON_VALUE
                 )
         )
 })
-public @interface CreateUserApi {
+public @interface LoginApi {
 }
