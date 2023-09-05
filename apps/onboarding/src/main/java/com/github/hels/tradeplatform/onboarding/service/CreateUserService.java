@@ -3,7 +3,9 @@ package com.github.hels.tradeplatform.onboarding.service;
 import com.github.hels.tradeplatform.db.specifications.ApiSpecification;
 import com.github.hels.tradeplatform.db.specifications.Input;
 import com.github.hels.tradeplatform.db.specifications.Operator;
+import com.github.hels.tradeplatform.onboarding.dto.domain.AddressDto;
 import com.github.hels.tradeplatform.onboarding.exceptions.ApiException;
+import com.github.hels.tradeplatform.onboarding.models.Address;
 import com.github.hels.tradeplatform.onboarding.models.User;
 import com.github.hels.tradeplatform.onboarding.repository.IUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +27,7 @@ public class CreateUserService {
 
     public User execute(
             String name, String document, String email, String password, String phoneNumber,
-            LocalDate birthDate, String zipCode, String streetNumber, String complement
+            LocalDate birthDate, String zipCode
     ) {
 
         validateLegalAge(birthDate);
@@ -43,10 +45,14 @@ public class CreateUserService {
         user.setPhoneNumber(phoneNumber);
         user.setBirthDate(birthDate);
 
-        var address = addressService.execute(zipCode, streetNumber, complement);
+        AddressDto addressDto = new AddressDto();
+        addressDto.setZipCode(zipCode);
+
+        Address address = addressService.execute(addressDto);
 
         address.setUser(user);
         user.setAddress(List.of(address));
+
 
         return repository.save(user);
     }

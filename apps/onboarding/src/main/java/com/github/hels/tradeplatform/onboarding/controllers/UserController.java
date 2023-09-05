@@ -43,13 +43,9 @@ public class UserController {
 
         String zipCode = requestBody.getZipCode();
 
-        String streetNumber = requestBody.getStreetNumber();
-        String complement = requestBody.getComplement();
-
 
         User user = createUserService.execute(
-                name, document, email, password, phoneNumber, birthDate, zipCode,
-                streetNumber, complement);
+                name, document, email, password, phoneNumber, birthDate, zipCode);
 
         return new CreateUserDto.Response(user.getId().toString());
     }

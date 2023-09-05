@@ -1,6 +1,6 @@
 package com.github.hels.tradeplatform.onboarding.dto;
 
-import com.github.hels.tradeplatform.onboarding.models.Address;
+import com.github.hels.tradeplatform.onboarding.dto.domain.AddressDto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -48,12 +48,7 @@ public class CreateUserDto {
         @NotNull(message = "A zipcode must be provided.")
         private String zipCode;
 
-        private String complement;
-
-        @NotBlank(message = "Street number must be provided")
-        private String streetNumber;
-
-        private Address address;
+        private AddressDto addressDto;
     }
 
     @ToString
