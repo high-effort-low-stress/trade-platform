@@ -21,8 +21,6 @@ import java.util.Objects;
 public class CreateUserService {
     private final IUserRepository repository;
     private final Clock clock;
-    //    private final ViaCepService viaCepService;
-//    private final AddressMapper addressMapper;
     private final AddressService addressService;
 
     public User execute(
