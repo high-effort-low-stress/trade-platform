@@ -12,3 +12,8 @@ spring:
       hibernate:
         ddl-auto: update
         dialect: org.hibernate.dialect.PostgreSQLDialect
+
+trade:
+  platform:
+    security:
+      secret: ${SECRET}
