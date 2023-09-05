@@ -3,10 +3,7 @@ package com.github.hels.tradeplatform.onboarding.service;
 import com.github.hels.tradeplatform.db.specifications.ApiSpecification;
 import com.github.hels.tradeplatform.db.specifications.Input;
 import com.github.hels.tradeplatform.db.specifications.Operator;
-import com.github.hels.tradeplatform.onboarding.dto.domain.ViaCepDto;
 import com.github.hels.tradeplatform.onboarding.exceptions.ApiException;
-import com.github.hels.tradeplatform.onboarding.mappers.AddressMapper;
-import com.github.hels.tradeplatform.onboarding.models.Address;
 import com.github.hels.tradeplatform.onboarding.models.User;
 import com.github.hels.tradeplatform.onboarding.repository.IUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,12 +21,13 @@ import java.util.Objects;
 public class CreateUserService {
     private final IUserRepository repository;
     private final Clock clock;
-    private final ViaCepService viaCepService;
-    private final AddressMapper addressMapper;
+    //    private final ViaCepService viaCepService;
+//    private final AddressMapper addressMapper;
+    private final AddressService addressService;
 
     public User execute(
             String name, String document, String email, String password, String phoneNumber,
-            LocalDate birthDate, String zipCode, String complement, String streetNumber
+            LocalDate birthDate, String zipCode, String streetNumber, String complement
     ) {
 
         validateLegalAge(birthDate);
@@ -47,12 +45,7 @@ public class CreateUserService {
         user.setPhoneNumber(phoneNumber);
         user.setBirthDate(birthDate);
 
-        ViaCepDto viaCepDto = viaCepService.execute(zipCode);
-        viaCepDto.setZipCode(zipCodeFormatter(zipCode));
-        Address address = addressMapper.toAddress(viaCepDto);
-
-        address.setStreetNumber(streetNumber);
-        address.setComplement(complement);
+        var address = addressService.execute(zipCode, streetNumber, complement);
 
         address.setUser(user);
         user.setAddress(List.of(address));
@@ -76,10 +69,6 @@ public class CreateUserService {
 
         if (Period.between(birthDate, currentDate).getYears() < 18)
             throw new ApiException("User must be 18+ years old");
-    }
-
-    private String zipCodeFormatter(String zipCode) {
-        return zipCode.replace("-", "");
     }
 
     private ApiSpecification<User> buildSpecification(String document, String email, String phoneNumber) {

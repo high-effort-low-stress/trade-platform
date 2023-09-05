@@ -1,7 +1,9 @@
 package com.github.hels.tradeplatform.onboarding.service;
 
+import com.github.hels.tradeplatform.onboarding.dto.domain.AddressDto;
+import com.github.hels.tradeplatform.onboarding.dto.domain.ViaCepDto;
+import com.github.hels.tradeplatform.onboarding.mappers.AddressMapper;
 import com.github.hels.tradeplatform.onboarding.models.Address;
-import com.github.hels.tradeplatform.onboarding.repository.IAddressRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,10 +12,24 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AddressService {
 
-    private final IAddressRepository repository;
+    private final ViaCepService viaCepService;
+    private final AddressMapper addressMapper;
 
-    public Address execute(Address entity) {
+    public Address execute(String zipCode, String streetNumber, String complement) {
 
-        return repository.save(entity);
+        ViaCepDto viaCep = viaCepService.execute(zipCode);
+
+        AddressDto dto = addressMapper.toAddressDto(viaCep);
+
+        dto.setZipCode(formatter(zipCode));
+        dto.setComplement(complement);
+        dto.setStreetNumber(streetNumber);
+
+        return addressMapper.toAddress(dto);
     }
+
+    private String formatter(String zipCode) {
+        return zipCode.replace("-", "");
+    }
+
 }
