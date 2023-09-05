@@ -40,9 +40,16 @@ public class UserController {
         String password = requestBody.getPassword();
         String phoneNumber = requestBody.getPhoneNumber();
         LocalDate birthDate = requestBody.getBirthDate();
+
         String zipCode = requestBody.getZipCode();
 
-        User user = createUserService.execute(name, document, email, password, phoneNumber, birthDate, zipCode);
+        String complement = requestBody.getComplement();
+        String streetNumber = requestBody.getStreetNumber();
+
+
+        User user = createUserService.execute(
+                name, document, email, password, phoneNumber, birthDate, zipCode,
+                complement, streetNumber);
 
         return new CreateUserDto.Response(user.getId().toString());
     }

@@ -3,7 +3,7 @@ package com.github.hels.tradeplatform.onboarding.service;
 import com.github.hels.tradeplatform.db.specifications.ApiSpecification;
 import com.github.hels.tradeplatform.db.specifications.Input;
 import com.github.hels.tradeplatform.db.specifications.Operator;
-import com.github.hels.tradeplatform.onboarding.dto.ViaCepDto;
+import com.github.hels.tradeplatform.onboarding.dto.domain.ViaCepDto;
 import com.github.hels.tradeplatform.onboarding.exceptions.ApiException;
 import com.github.hels.tradeplatform.onboarding.mappers.AddressMapper;
 import com.github.hels.tradeplatform.onboarding.models.Address;
@@ -27,8 +27,10 @@ public class CreateUserService {
     private final ViaCepService viaCepService;
     private final AddressMapper addressMapper;
 
-    public User execute(String name, String document, String email, String password, String phoneNumber,
-                        LocalDate birthDate, String zipCode) {
+    public User execute(
+            String name, String document, String email, String password, String phoneNumber,
+            LocalDate birthDate, String zipCode, String complement, String streetNumber
+    ) {
 
         validateLegalAge(birthDate);
         findDuplicates(document, email, phoneNumber);
@@ -49,11 +51,15 @@ public class CreateUserService {
         viaCepDto.setZipCode(zipCodeFormatter(zipCode));
         Address address = addressMapper.toAddress(viaCepDto);
 
+        address.setStreetNumber(streetNumber);
+        address.setComplement(complement);
+
         address.setUser(user);
         user.setAddress(List.of(address));
 
         return repository.save(user);
     }
+
 
     private void findDuplicates(String document, String email, String phoneNumber) {
         List<User> users = repository.findAll(buildSpecification(document, email, phoneNumber));
@@ -88,4 +94,5 @@ public class CreateUserService {
                 .input(input)
                 .build();
     }
+
 }

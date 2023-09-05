@@ -18,7 +18,7 @@ public class Address {
     private Long id;
 
     @Column(name = "zipcode")
-    private String zipcode;
+    private String zipCode;
 
     @Column(name ="uf")
     private String uf;
