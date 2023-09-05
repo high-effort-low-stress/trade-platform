@@ -1,7 +1,7 @@
 package com.github.hels.tradeplatform.onboarding.service;
 
 import com.github.hels.tradeplatform.onboarding.dto.domain.AddressDto;
-import com.github.hels.tradeplatform.onboarding.dto.domain.ViaCepDto;
+import com.github.hels.tradeplatform.onboarding.dto.domain.ViaCep;
 import com.github.hels.tradeplatform.onboarding.mappers.AddressMapper;
 import com.github.hels.tradeplatform.onboarding.models.Address;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ public class AddressService {
 
     public Address execute(String zipCode, String streetNumber, String complement) {
 
-        ViaCepDto viaCep = viaCepService.execute(zipCode);
+        ViaCep viaCep = viaCepService.execute(zipCode);
 
         AddressDto dto = addressMapper.toAddressDto(viaCep);
 

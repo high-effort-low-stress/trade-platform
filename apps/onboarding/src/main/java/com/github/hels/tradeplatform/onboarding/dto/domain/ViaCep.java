@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ViaCepDto {
+public class ViaCep {
 
     @JsonProperty(value = "cep")
     private String zipCode;

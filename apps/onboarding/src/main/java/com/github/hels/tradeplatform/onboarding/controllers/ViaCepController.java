@@ -1,6 +1,6 @@
 package com.github.hels.tradeplatform.onboarding.controllers;
 
-import com.github.hels.tradeplatform.onboarding.dto.domain.ViaCepDto;
+import com.github.hels.tradeplatform.onboarding.dto.domain.ViaCep;
 import com.github.hels.tradeplatform.onboarding.service.ViaCepService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -24,7 +24,7 @@ public class ViaCepController {
     @Operation(description = "busca endereço utilizando API viaCep", method = "GET")
     @Parameter(name = "zipCode", in = ParameterIn.PATH, description = "cep a ser consultado", required = true)
     @GetMapping("/{zipCode}")
-    public ResponseEntity<ViaCepDto> test(@PathVariable(value = "zipCode") String zipCode) {
+    public ResponseEntity<ViaCep> test(@PathVariable(value = "zipCode") String zipCode) {
         return ResponseEntity.ok(service.execute(zipCode));
     }
 }
