@@ -1,9 +1,8 @@
 package com.github.hels.tradeplatform.onboarding.mappers;
 
-import com.github.hels.tradeplatform.onboarding.dto.domain.UserDto;
 import com.github.hels.tradeplatform.onboarding.dto.CreateUserDto;
+import com.github.hels.tradeplatform.onboarding.dto.domain.UserDto;
 import com.github.hels.tradeplatform.onboarding.models.User;
-import lombok.RequiredArgsConstructor;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
