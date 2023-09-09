@@ -1,6 +1,6 @@
 package com.github.hels.tradeplatform.onboarding.controllers;
 
-import com.github.hels.tradeplatform.onboarding.dto.domain.ViaCep;
+import com.github.hels.tradeplatform.onboarding.infrastructure.ViaCep;
 import com.github.hels.tradeplatform.onboarding.service.ViaCepService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

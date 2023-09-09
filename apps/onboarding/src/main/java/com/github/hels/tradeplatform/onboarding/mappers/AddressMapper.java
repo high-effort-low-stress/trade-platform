@@ -1,7 +1,7 @@
 package com.github.hels.tradeplatform.onboarding.mappers;
 
 import com.github.hels.tradeplatform.onboarding.dto.domain.AddressDto;
-import com.github.hels.tradeplatform.onboarding.dto.domain.ViaCep;
+import com.github.hels.tradeplatform.onboarding.infrastructure.ViaCep;
 import com.github.hels.tradeplatform.onboarding.models.Address;
 import org.mapstruct.Mapper;
 

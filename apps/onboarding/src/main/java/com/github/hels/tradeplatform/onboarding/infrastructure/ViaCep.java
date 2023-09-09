@@ -1,4 +1,4 @@
-package com.github.hels.tradeplatform.onboarding.dto.domain;
+package com.github.hels.tradeplatform.onboarding.infrastructure;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;

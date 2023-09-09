@@ -1,6 +1,6 @@
 package com.github.hels.tradeplatform.onboarding.service;
 
-import com.github.hels.tradeplatform.onboarding.dto.domain.ViaCep;
+import com.github.hels.tradeplatform.onboarding.infrastructure.ViaCep;
 import com.github.hels.tradeplatform.onboarding.infrastructure.ViaCepClient;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
