@@ -36,7 +36,6 @@ public class UserController {
             @Valid @RequestBody CreateUserDto.Request requestBody
     ) {
         User user = createUserService.execute(userMapper.toUserDto(requestBody));
-
         return new CreateUserDto.Response(user.getId().toString());
     }
 

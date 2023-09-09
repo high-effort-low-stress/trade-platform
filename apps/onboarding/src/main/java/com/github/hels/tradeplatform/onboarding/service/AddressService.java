@@ -21,25 +21,25 @@ public class AddressService {
             AddressDto dto
     ) {
         if (
-                !dto.getZipCode().isEmpty() &&
-                !dto.getCity().isEmpty() &&
-                !dto.getUf().isEmpty() &&
-                !dto.getDistrict().isEmpty() &&
-                !dto.getStreetName().isEmpty()
+//                (Objects.isNull(dto.getZipCode()) || dto.getZipCode().isEmpty()) &&
+                        (Objects.isNull(dto.getUf()) || dto.getUf().isEmpty()) &&
+                        (Objects.isNull(dto.getCity()) || dto.getCity().isEmpty()) &&
+                        (Objects.isNull(dto.getStreetName()) || dto.getStreetName().isEmpty()) &&
+                        (Objects.isNull(dto.getDistrict()) || dto.getDistrict().isEmpty())
         ) {
             ViaCep viaCep = viaCepService.execute(dto.getZipCode());
 
             if (Objects.isNull(dto.getUf()) || dto.getUf().isEmpty())
                 dto.setUf(viaCep.getUf());
-
             if (Objects.isNull(dto.getCity()) || dto.getCity().isEmpty())
                 dto.setCity(viaCep.getCity());
-
             if (Objects.isNull(dto.getStreetName()) || dto.getStreetName().isEmpty())
                 dto.setStreetName(viaCep.getStreetName());
-
             if (Objects.isNull(dto.getDistrict()) || dto.getDistrict().isEmpty())
                 dto.setDistrict(viaCep.getDistrict());
+
+            AddressDto addressDto = addressMapper.toAddressDto(viaCep);
+            return addressMapper.toAddress(addressDto);
         }
         return addressMapper.toAddress(dto);
     }
