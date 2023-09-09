@@ -7,6 +7,8 @@ import com.github.hels.tradeplatform.onboarding.models.Address;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 
 @Service
 @RequiredArgsConstructor
@@ -15,21 +17,30 @@ public class AddressService {
     private final ViaCepService viaCepService;
     private final AddressMapper addressMapper;
 
-    public Address execute(String zipCode, String streetNumber, String complement) {
+    public Address execute(
+            AddressDto dto
+    ) {
+        if (!dto.getZipCode().isEmpty()) {
+            ViaCep viaCep = viaCepService.execute(dto.getZipCode());
 
-        ViaCep viaCep = viaCepService.execute(zipCode);
+            if (Objects.isNull(dto.getUf()) || dto.getUf().isEmpty())
+                dto.setUf(viaCep.getUf());
 
-        AddressDto dto = addressMapper.toAddressDto(viaCep);
+            if (Objects.isNull(dto.getCity()) || dto.getCity().isEmpty())
+                dto.setCity(viaCep.getCity());
 
-        dto.setZipCode(formatter(zipCode));
-        dto.setComplement(complement);
-        dto.setStreetNumber(streetNumber);
+            if (Objects.isNull(dto.getStreetName()) || dto.getStreetName().isEmpty())
+                dto.setStreetName(viaCep.getStreetName());
 
+            if (Objects.isNull(dto.getDistrict()) || dto.getDistrict().isEmpty())
+                dto.setDistrict(viaCep.getDistrict());
+        }
         return addressMapper.toAddress(dto);
     }
 
     private String formatter(String zipCode) {
         return zipCode.replace("-", "");
     }
-
 }
+
+

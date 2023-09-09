@@ -21,4 +21,8 @@ public interface UserMapper {
     }
 
     UserDto toUserDto(User entity);
+
+    UserDto toUserDto(CreateUserDto.Request request);
+
+    User toUser(UserDto userDto);
 }

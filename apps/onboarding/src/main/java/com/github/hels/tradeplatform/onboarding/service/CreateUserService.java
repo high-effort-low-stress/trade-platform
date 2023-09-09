@@ -3,7 +3,11 @@ package com.github.hels.tradeplatform.onboarding.service;
 import com.github.hels.tradeplatform.db.specifications.ApiSpecification;
 import com.github.hels.tradeplatform.db.specifications.Input;
 import com.github.hels.tradeplatform.db.specifications.Operator;
+import com.github.hels.tradeplatform.onboarding.dto.domain.AddressDto;
+import com.github.hels.tradeplatform.onboarding.dto.domain.UserDto;
 import com.github.hels.tradeplatform.onboarding.exceptions.ApiException;
+import com.github.hels.tradeplatform.onboarding.mappers.UserMapper;
+import com.github.hels.tradeplatform.onboarding.models.Address;
 import com.github.hels.tradeplatform.onboarding.models.User;
 import com.github.hels.tradeplatform.onboarding.repository.IUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,35 +26,27 @@ public class CreateUserService {
     private final IUserRepository repository;
     private final Clock clock;
     private final AddressService addressService;
+    private final UserMapper userMapper;
 
-    public User execute(
-            String name, String document, String email, String password, String phoneNumber,
-            LocalDate birthDate, String zipCode, String streetNumber, String complement
-    ) {
+    public User execute(UserDto userDto) {
+        validateLegalAge(userDto.getBirthDate());
+        findDuplicates(userDto.getDocument(), userDto.getEmail(), userDto.getPhoneNumber());
 
-        validateLegalAge(birthDate);
-        findDuplicates(document, email, phoneNumber);
-
-        if (Objects.isNull(password))
+        if (Objects.isNull(userDto.getPassword()))
             throw new RuntimeException("Password can't be null.");
 
-        User user = new User();
+        User user = userMapper.toUser(userDto);
 
-        user.setName(name);
-        user.setDocument(document);
-        user.setEmail(email);
-        user.setPassword(BCrypt.hashpw(password, BCrypt.gensalt()));
-        user.setPhoneNumber(phoneNumber);
-        user.setBirthDate(birthDate);
+        user.setPassword(BCrypt.hashpw(userDto.getPassword(), BCrypt.gensalt()));
 
-        var address = addressService.execute(zipCode, streetNumber, complement);
+        AddressDto addressDto = userDto.getAddresses().stream().findFirst().orElseThrow();
+        Address address = addressService.execute(addressDto);
 
         address.setUser(user);
-        user.setAddress(List.of(address));
+        user.setAddresses(List.of(address));
 
         return repository.save(user);
     }
-
 
     private void findDuplicates(String document, String email, String phoneNumber) {
         List<User> users = repository.findAll(buildSpecification(document, email, phoneNumber));

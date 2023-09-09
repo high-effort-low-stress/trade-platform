@@ -33,6 +33,6 @@ public class User {
     @Column(name = "is_active", nullable = false)
     private boolean isActive = true;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private List<Address> address;
+    private List<Address> addresses;
 
 }

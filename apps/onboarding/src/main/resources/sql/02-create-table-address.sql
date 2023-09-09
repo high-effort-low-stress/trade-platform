@@ -6,7 +6,7 @@ CREATE TABLE onboarding.address (
 	city varchar(20) not null,
 	district varchar(20) not null,
 	street_name varchar(40) not null,
-	street_number varchar(4) not null,
+	street_number varchar(4),
 	complement varchar(20),
 	constraint pk_address primary key (id),
 	constraint fk_address_user foreign key (user_id) references onboarding.user(id)

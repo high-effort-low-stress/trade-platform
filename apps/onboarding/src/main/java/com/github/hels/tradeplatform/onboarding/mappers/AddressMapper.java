@@ -9,5 +9,6 @@ import org.mapstruct.Mapper;
 public interface AddressMapper {
     AddressDto toAddressDto(ViaCep viaCep);
 
-    Address toAddress (AddressDto dto);
+    Address toAddress(AddressDto dto);
+
 }
