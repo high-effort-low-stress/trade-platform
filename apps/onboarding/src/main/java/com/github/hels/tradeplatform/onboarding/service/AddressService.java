@@ -27,7 +27,6 @@ public class AddressService {
                 !dto.getDistrict().isEmpty() &&
                 !dto.getStreetName().isEmpty()
         ) {
-
             ViaCep viaCep = viaCepService.execute(dto.getZipCode());
 
             if (Objects.isNull(dto.getUf()) || dto.getUf().isEmpty())
